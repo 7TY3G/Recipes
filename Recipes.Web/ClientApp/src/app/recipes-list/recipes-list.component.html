@@ -1,0 +1,22 @@
+<h1>List of recipes</h1>
+
+<p *ngIf="!recipes"><em>Loading...</em></p>
+
+<table class='table' *ngIf="recipes">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let recipe of recipes">
+      <td>{{ recipe.name }}</td>
+      <td>{{ recipe.rating }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div>
+  <button [routerLink]='["/add-recipe"]'>Add recipe</button>
+</div>

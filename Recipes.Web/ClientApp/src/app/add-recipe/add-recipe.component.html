@@ -1,0 +1,11 @@
+<div>
+  <label>Name</label>
+  <input type="text"  placeholder="Name (required)" [(ngModel)]="recipe.name" />
+</div>
+<div>
+  <label>Rating</label>
+  <input type="text" placeholder="Rating (required)" [(ngModel)]="recipe.rating" />
+</div>
+<div>
+  <button (click)="saveRecipe()">Save</button>
+</div>
