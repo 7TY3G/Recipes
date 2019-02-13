@@ -21,5 +21,21 @@ namespace Recipes.Web.Controllers
 
             return Ok();
         }
+
+        [HttpPut("Update")]
+        public IActionResult Update([FromBody]Recipe recipe)
+        {
+            this.recipeRepo.UpdateRecipe(recipe);
+
+            return Ok(recipe);
+        }
+
+        [HttpGet("GetById")]
+        public IActionResult GetById(int id)
+        {
+            var recipe = this.recipeRepo.GetById(id);
+
+            return Ok(recipe);
+        }
     }
 }
