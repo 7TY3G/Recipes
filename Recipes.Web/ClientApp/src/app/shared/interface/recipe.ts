@@ -1,4 +1,4 @@
-export interface IRecipe {
+export interface Recipe {
   name: string;
   rating: number;
 }

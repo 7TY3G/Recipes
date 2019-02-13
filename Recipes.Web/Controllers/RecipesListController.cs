@@ -1,32 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Recipes.Domain.Entities;
-using System.Collections.Generic;
-using System.Linq;
+using Recipes.Data.Repos;
 
 namespace Recipes.Web.Controllers
 {
     [Route("api/[controller]")]
     public class RecipesListController : Controller
     {
-        private static List<Recipe> Recipes = new List<Recipe>()
+        private readonly IRecipeRepository recipeRepo;
+
+        public RecipesListController(IRecipeRepository recipeRepo)
         {
-            new Recipe { Name = "Chilli Con Carne", Rating = 3 },
-            new Recipe { Name = "Spagetti Bolognese", Rating = 5 },
-            new Recipe { Name = "Chicken Tikka Masala", Rating = 4.5 },
-            new Recipe { Name = "Sausage Casserole", Rating = 4.2 } 
-        };
+            this.recipeRepo = recipeRepo;
+        }
 
         [HttpGet("[action]")]
         public IActionResult Get()
         {
-            return Ok(Recipes);
+            var recipes = this.recipeRepo.GetAllRecipes();
+            return Ok(recipes);
         }
 
         [HttpGet("Favourites")]
         public IActionResult GetFavourites()
         {
-            var topRecipes = Recipes.Take(3);
-            return Ok(topRecipes);
+            var recipes = this.recipeRepo.GetFavouriteRecipes();
+            return Ok(recipes);
         }
     }
 }
