@@ -7,6 +7,8 @@ namespace Recipes.Data.Repos
     {
         IEnumerable<Recipe> GetAllRecipes();
         IEnumerable<Recipe> GetFavouriteRecipes();
+        Recipe GetById(int id);
         void AddRecipe(Recipe recipe);
+        void UpdateRecipe(Recipe recipe);
     }
 }

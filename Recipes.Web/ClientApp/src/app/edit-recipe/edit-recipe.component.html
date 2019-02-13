@@ -1,0 +1,27 @@
+<form novalidate (ngSubmit)="saveRecipe(form)" #form="ngForm">
+  <div>
+    <label>
+      <span>Name</span>
+      <input name="name" type="text" placeholder="Name (required)" [(ngModel)]="recipe.name" #name="ngModel" required />
+    </label>
+    <div *ngIf="name.errors?.required && name.touched" class="error">
+      Name is required
+    </div>
+  </div>
+  <div>
+    <label>
+      <span>Rating</span>
+      <input name="rating" type="text" placeholder="Rating (required)" [(ngModel)]="recipe.rating" #rating="ngModel" required />
+    </label>
+    <div *ngIf="rating.errors?.required && rating.touched" class="error">
+      Rating is required
+    </div>
+  </div>
+  <div>
+    <button type="submit" [disabled]="form.invalid">Save</button>
+  </div>
+</form>
+<div *ngIf="saved">
+  Recipe saved!
+</div>
+<button (click)="backToRecipes()">Back to recipes</button>

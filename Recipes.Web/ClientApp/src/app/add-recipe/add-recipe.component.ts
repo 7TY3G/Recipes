@@ -9,6 +9,7 @@ import { Recipe } from '../shared/interface/recipe';
 })
 export class AddRecipeComponent {
   recipe: Recipe = {
+    id: 0,
     name: '',
     rating: 0
   };
@@ -17,7 +18,6 @@ export class AddRecipeComponent {
   }
 
   saveRecipe({ value, valid }: { value: Recipe, valid: boolean }) {
-    debugger;
     if (valid) {
       this.recipe = value;
 

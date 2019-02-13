@@ -13,6 +13,7 @@
     <tr *ngFor="let recipe of recipes">
       <td>{{ recipe.name }}</td>
       <td>{{ recipe.rating }}</td>
+      <td><a [routerLink]="['/edit-recipe', recipe.id]">Edit</a></td>
     </tr>
   </tbody>
 </table>
