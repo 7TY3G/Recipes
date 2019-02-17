@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Recipes.Domain.Entities
 {
@@ -9,5 +7,7 @@ namespace Recipes.Domain.Entities
         public string Name { get; set; }
 
         public double Rating { get; set; }
+
+        public List<RecipeIngredient> Ingredients { get; set; }
     }
 }

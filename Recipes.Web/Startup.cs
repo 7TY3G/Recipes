@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recipes.Data;
 using Recipes.Data.Repos;
+using Recipes.Data.Seeding;
 
 namespace Recipes.Web
 {
@@ -23,7 +24,9 @@ namespace Recipes.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddDbContext<RecipesContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddTransient<DbSeeder>();
 
             services.AddScoped<IRecipeRepository, RecipeRepository>();
 

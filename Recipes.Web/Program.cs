@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Recipes.Data.Seeding;
 
 namespace Recipes.Web
 {
@@ -7,7 +9,20 @@ namespace Recipes.Web
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+            SeedDatabase(host);
+
+            host.Run();
+        }
+
+        private static void SeedDatabase(IWebHost host)
+        {
+            var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var seeder = scope.ServiceProvider.GetService<DbSeeder>();
+                seeder.Seed();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

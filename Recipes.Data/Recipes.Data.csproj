@@ -5,6 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190216221301_Initial.cs" />
+    <Compile Remove="Migrations\20190216221427_InitialExtra.cs" />
+    <Compile Remove="Migrations\20190216222035_Initial.cs" />
+    <Compile Remove="Migrations\20190216222241_Initial.cs" />
+    <Compile Remove="Migrations\20190216225829_Initial.cs" />
+    <Compile Remove="Migrations\20190216230136_Initial.cs" />
+    <Compile Remove="Migrations\20190216230837_Initial.cs" />
+    <Compile Remove="Migrations\20190216231436_Initial.cs" />
+    <Compile Remove="Migrations\20190217005814_Initial.cs" />
+    <Compile Remove="Migrations\20190217184143_Initial.cs" />
+    <Compile Remove="Migrations\20190217185742_Initial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
@@ -16,6 +30,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Recipes.Domain\Recipes.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Hosting">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.hosting\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
