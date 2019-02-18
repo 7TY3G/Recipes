@@ -1,24 +1,27 @@
-<form novalidate (ngSubmit)="saveRecipe(form)" #form="ngForm">
+<form novalidate (ngSubmit)="saveRecipe()" [formGroup]="recipeForm">
   <div>
     <label>
       <span>Name</span>
-      <input name="name" type="text" placeholder="Name (required)" [(ngModel)]="recipe.name" #name="ngModel" required />
+      <input type="text" placeholder="Name (required)" formControlName="name" required />
     </label>
-    <div *ngIf="name.errors?.required && name.touched" class="error">
+    <div *ngIf="recipeForm.get('name').errors?.required && recipeForm.get('name').touched" class="error">
       Name is required
     </div>
   </div>
   <div>
+    <button (click)="addIngredient()">Add ingredient</button>
+  </div>
+  <div>
     <label>
       <span>Rating</span>
-      <input name="rating" type="text" placeholder="Rating (required)" [(ngModel)]="recipe.rating" #rating="ngModel" required />
+      <input type="text" placeholder="Rating (required)" formControlName="rating" required />
     </label>
-    <div *ngIf="rating.errors?.required && rating.touched" class="error">
+    <div *ngIf="recipeForm.get('rating').errors?.required && recipeForm.get('rating').touched" class="error">
       Rating is required
     </div>
   </div>
   <div>
-    <button type="submit" [disabled]="form.invalid">Save</button>
+    <button type="submit" [disabled]="recipeForm.invalid">Save</button>
   </div>
 </form>
 <div *ngIf="saved">
