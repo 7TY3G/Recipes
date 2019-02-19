@@ -5,7 +5,8 @@ import { Recipe } from '../shared/model/recipe';
 
 @Component({
   selector: 'app-add-recipe',
-  templateUrl: './add-recipe.component.html'
+  templateUrl: './add-recipe.component.html',
+  styleUrls: ['./add-recipe.component.css']
 })
 export class AddRecipeComponent {
   recipe = new Recipe();
@@ -15,8 +16,6 @@ export class AddRecipeComponent {
 
   saveRecipe({ value, valid }: { value: Recipe, valid: boolean }) {
     if (valid) {
-      this.recipe = value;
-
       this.http.post<Recipe>(this.baseUrl + 'api/Recipe/Add', this.recipe).subscribe(result => {
         this.router.navigate(['recipes-list']);
       }, error => console.error(error));

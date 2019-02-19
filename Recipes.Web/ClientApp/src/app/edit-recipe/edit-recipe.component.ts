@@ -1,13 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { EditIngredientListComponent } from '../shared/components/edit-ingredient-list.component';
 import { Recipe } from '../shared/model/recipe';
 import { Ingredient } from '../shared/model/Ingredient';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-edit-recipe',
-  templateUrl: './edit-recipe.component.html'
+  templateUrl: './edit-recipe.component.html',
+  styleUrls: ['./add-recipe.component.css']
 })
 export class EditRecipeComponent {
   recipe = new Recipe();
@@ -17,17 +18,13 @@ export class EditRecipeComponent {
   constructor(private router: Router, private currentRoute: ActivatedRoute, private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     this.currentRoute.params.subscribe((queryParams: ParamMap) => {
       this.http.get<Recipe>(this.baseUrl + 'api/Recipe/GetById', { params: { id: queryParams['id'] } }).subscribe(result => {
-        debugger;
         this.recipe = result;
       }, error => console.error(error));
     });
   }
 
-  updateIngredients(updatedIngredients: Ingredient[]): void {
-    this.recipe.ingredients = updatedIngredients;
-  }
-
   saveRecipe({ value, valid }: { value: Recipe, valid: boolean }) {
+    debugger;
     if (valid) {
       this.http.put<Recipe>(this.baseUrl + 'api/Recipe/Update', this.recipe).subscribe(result => {
         this.saved = true;

@@ -1,0 +1,31 @@
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.ingredient-header {
+  font-weight: 700;
+}
+
+.ingredient-column {
+  display: inline-block;
+}
+
+.remove-ingredient-button {
+  background: none;
+  border: none;
+}
+
+.add-ingredient-button {
+  margin-bottom: 10px;
+}
+
+.li-list-item {
+  padding: 5px 0px;
+  border-bottom: 1px solid #ddd;
+}
+
+input {
+  margin-right: 5px;
+  width: 80px;
+}

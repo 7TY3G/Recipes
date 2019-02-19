@@ -8,6 +8,6 @@ namespace Recipes.Domain.Entities
 
         public double Rating { get; set; }
 
-        public List<RecipeIngredient> Ingredients { get; set; }
+        public ICollection<RecipeIngredient> Ingredients { get; set; }
     }
 }
