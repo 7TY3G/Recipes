@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { RecipesListComponent } from './recipes-list/reciples-list.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
+import { EditIngredientListComponent } from './shared/components/edit-ingredient-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
     HomeComponent,
     RecipesListComponent,
     AddRecipeComponent,
-    EditRecipeComponent
+    EditRecipeComponent,
+    EditIngredientListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

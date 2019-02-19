@@ -1,0 +1,23 @@
+<div>
+  <span>Ingredients</span>
+  <ul>
+    <li *ngFor="let ingredient of ingredients; let in = index">
+      <div>
+        <span>Name</span>
+        <input name="ingredientName-{{in}}" type="text" [(ngModel)]="ingredient.ingredientId" #ingredientId="ngModel" />
+      </div>
+      <div>
+        <span>Amount</span>
+        <input name="amount-{{in}}" type="text" [(ngModel)]="ingredient.amount" #amount="ngModel" />
+      </div>
+      <div>
+        <span>Measurement</span>
+        <input name="measurement-{{in}}" type="text" [(ngModel)]="ingredient.measurement" #measurement="ngModel" />
+      </div>
+      <div>
+        <button type="button" (click)="removeIngredient(in)">Remove ingredient</button>
+      </div>
+    </li>
+  </ul>
+  <button type="button" (click)="addIngredient()">Add ingredient</button>
+</div>

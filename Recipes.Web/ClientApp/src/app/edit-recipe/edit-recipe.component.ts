@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { EditIngredientListComponent } from '../shared/components/edit-ingredient-list.component';
 import { Recipe } from '../shared/model/recipe';
 import { Ingredient } from '../shared/model/Ingredient';
 
@@ -22,18 +23,11 @@ export class EditRecipeComponent {
     });
   }
 
-  addIngredient(): void {
-    let ingredient = new Ingredient();
-    this.recipe.ingredients.push(ingredient);
-  }
-
-  removeIngredient(indexToRemove: number): void {
-    debugger;
-    this.recipe.ingredients.splice(indexToRemove, 1);
+  updateIngredients(updatedIngredients: Ingredient[]): void {
+    this.recipe.ingredients = updatedIngredients;
   }
 
   saveRecipe({ value, valid }: { value: Recipe, valid: boolean }) {
-    debugger;
     if (valid) {
       this.http.put<Recipe>(this.baseUrl + 'api/Recipe/Update', this.recipe).subscribe(result => {
         this.saved = true;
