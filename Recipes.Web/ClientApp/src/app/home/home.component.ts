@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Recipe } from '../shared/interface/recipe';
+import { Recipe } from '../shared/model/recipe';
 
 @Component({
   selector: 'app-home',

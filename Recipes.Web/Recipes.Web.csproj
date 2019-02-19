@@ -29,6 +29,12 @@
     <ProjectReference Include="..\Recipes.Domain\Recipes.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ClientApp\src\app\shared\model\Ingredient.js.map">
+      <DependentUpon>Ingredient.js</DependentUpon>
+    </None>
+  </ItemGroup>
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">

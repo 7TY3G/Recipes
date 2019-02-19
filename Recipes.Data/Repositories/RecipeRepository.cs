@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Recipes.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,7 +30,7 @@ namespace Recipes.Data.Repos
         {
             var recipe = this.context.Recipe
                 .Include(x => x.Ingredients)
-                .FirstOrDefault(x => x.Id == id);
+                .SingleOrDefault(x => x.Id == id);
 
             if (recipe != null)
             {
@@ -47,20 +48,68 @@ namespace Recipes.Data.Repos
 
         public void UpdateRecipe(Recipe recipe)
         {
-            var oldRecipe = this.context.Recipe
+            var currentRecipe = this.context.Recipe
                 .Include(x => x.Ingredients)
                 .FirstOrDefault(x => x.Id == recipe.Id);
 
-            if (oldRecipe != null)
+            if (currentRecipe != null)
             {
-                oldRecipe.Name = recipe.Name;
-                oldRecipe.Rating = recipe.Rating;
-                oldRecipe.Ingredients = recipe.Ingredients;
+                currentRecipe.Name = recipe.Name;
+                currentRecipe.Rating = recipe.Rating;
+
+                UpdateExistingRecipeIngredients(currentRecipe.Ingredients, recipe.Ingredients.Where(x => x.Id != 0).ToList());
+                AddNewIngredientsToRecipe(recipe.Ingredients.Where(x => x.Id == 0), currentRecipe);
+
+                this.context.Recipe.Update(currentRecipe);
                 this.context.SaveChanges();
+
                 return;
             }
-             // TODO: Should throw exception
+
+            // TODO: Should throw exception
             return;
+        }
+
+        private void UpdateExistingRecipeIngredients(ICollection<RecipeIngredient> existingIngredients, ICollection<RecipeIngredient> updatedIngredients)
+        {
+            var itemsToRemove = new List<RecipeIngredient>();
+
+            foreach (var existingIngredient in existingIngredients)
+            {
+                var updatedIngredient = updatedIngredients.Where(x => x.Id == existingIngredient.Id).SingleOrDefault();
+
+                if (updatedIngredient != null && (existingIngredient.Measurement != updatedIngredient.Measurement
+                    || existingIngredient.Amount != updatedIngredient.Amount))
+                {
+                    existingIngredients.First(x => x.Id == existingIngredient.Id).Amount = updatedIngredient.Amount;
+                    existingIngredients.First(x => x.Id == existingIngredient.Id).Measurement = updatedIngredient.Measurement;
+                }
+                else if (updatedIngredient == null)
+                {
+                    itemsToRemove.Add(existingIngredient);
+                }
+            }
+
+            foreach (var item in itemsToRemove)
+            {
+                existingIngredients.Remove(item);
+            }
+        }
+
+        private void AddNewIngredientsToRecipe(IEnumerable<RecipeIngredient> ingredients, Recipe currentRecipe)
+        {
+            foreach (var ingredient in ingredients)
+            {
+                var newRecipeIngredient = new RecipeIngredient()
+                {
+                    RecipeId = currentRecipe.Id,
+                    Amount = ingredient.Amount,
+                    Measurement = ingredient.Measurement,
+                    IngredientId = ingredient.IngredientId
+                };
+
+                currentRecipe.Ingredients.Add(newRecipeIngredient);
+            }
         }
     }
 }

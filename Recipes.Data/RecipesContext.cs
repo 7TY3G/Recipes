@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recipes.Data.Seeding;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Data

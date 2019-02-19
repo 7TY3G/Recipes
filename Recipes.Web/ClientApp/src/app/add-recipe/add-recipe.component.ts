@@ -1,18 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Recipe } from '../shared/interface/recipe';
+import { Recipe } from '../shared/model/recipe';
 
 @Component({
   selector: 'app-add-recipe',
   templateUrl: './add-recipe.component.html'
 })
 export class AddRecipeComponent {
-  recipe: Recipe = {
-    id: 0,
-    name: '',
-    rating: 0
-  };
+  recipe = new Recipe();
 
   constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
   }
