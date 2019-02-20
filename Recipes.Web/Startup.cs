@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,8 @@ namespace Recipes.Web
 
             services.AddDbContext<RecipesContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddTransient<DbSeeder>();
+
+            services.AddAutoMapper();
 
             services.AddScoped<IRecipeRepository, RecipeRepository>();
 
