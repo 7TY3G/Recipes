@@ -1,14 +1,15 @@
-﻿using Recipes.Domain.Entities;
+﻿using Recipes.Data.DataModels;
+using Recipes.Domain.Entities;
 using System.Collections.Generic;
 
 namespace Recipes.Data.Repos
 {
     public interface IRecipeRepository
     {
-        IEnumerable<Recipe> GetAllRecipes();
-        IEnumerable<Recipe> GetFavouriteRecipes();
-        Recipe GetById(int id);
-        void AddRecipe(Recipe recipe);
-        void UpdateRecipe(Recipe recipe);
+        IEnumerable<RecipeModel> GetAllRecipes();
+        IEnumerable<RecipeModel> GetFavouriteRecipes();
+        RecipeModel GetById(int id);
+        void AddRecipe(RecipeModel recipe);
+        void UpdateRecipe(RecipeModel recipe);
     }
 }

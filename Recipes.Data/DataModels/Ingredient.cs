@@ -1,4 +1,4 @@
-﻿namespace Recipes.Domain.Entities
+﻿namespace Recipes.Data.DataModels
 {
     public class Ingredient : BaseEntity
     {

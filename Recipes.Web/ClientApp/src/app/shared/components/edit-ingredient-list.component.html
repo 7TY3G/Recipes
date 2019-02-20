@@ -5,7 +5,7 @@
       <li class="li-list-item" *ngFor="let ingredient of ingredients; let in = index">
         <div class="ingredient-column">
           <span>Name</span>
-          <input name="ingredientName-{{in}}" type="text" [(ngModel)]="ingredient.ingredientId" #ingredientId="ngModel" />
+          <input name="ingredientName-{{in}}" type="text" [(ngModel)]="ingredient.name" #ingredientId="ngModel" />
         </div>
         <div class="ingredient-column">
           <span>Amount</span>

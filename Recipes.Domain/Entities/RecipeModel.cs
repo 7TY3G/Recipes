@@ -2,12 +2,14 @@
 
 namespace Recipes.Domain.Entities
 {
-    public class Recipe : BaseEntity
+    public class RecipeModel
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public double Rating { get; set; }
 
-        public ICollection<RecipeIngredient> Ingredients { get; set; }
+        public ICollection<IngredientModel> Ingredients { get; set; }
     }
 }

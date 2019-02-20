@@ -15,7 +15,7 @@ namespace Recipes.Web.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult Index([FromBody]Recipe recipe)
+        public IActionResult Index([FromBody]RecipeModel recipe)
         {
             this.recipeRepo.AddRecipe(recipe);
 
@@ -23,7 +23,7 @@ namespace Recipes.Web.Controllers
         }
 
         [HttpPut("Update")]
-        public IActionResult Update([FromBody]Recipe recipe)
+        public IActionResult Update([FromBody]RecipeModel recipe)
         {
             this.recipeRepo.UpdateRecipe(recipe);
 

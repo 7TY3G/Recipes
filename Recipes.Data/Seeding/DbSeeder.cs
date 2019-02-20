@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Recipes.Domain.Entities;
+using Recipes.Data.DataModels;
 using System;
 using System.Collections.Generic;
 using System.IO;

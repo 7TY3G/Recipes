@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Recipes.Domain.Entities
+namespace Recipes.Data.DataModels
 {
     public class BaseEntity
     {

@@ -2,8 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Recipe } from '../shared/model/recipe';
-import { Ingredient } from '../shared/model/Ingredient';
-import { debug } from 'util';
 
 @Component({
   selector: 'app-edit-recipe',

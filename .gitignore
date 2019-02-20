@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/Recipes.Data/DataModels/Security
+/Recipes.Data/SecurityContext.cs
+/Recipes.Web/Controllers/AccountController.cs

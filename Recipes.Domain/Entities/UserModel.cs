@@ -1,6 +1,6 @@
 ﻿namespace Recipes.Domain.Entities
 {
-    public class User : BaseEntity
+    public class UserModel
     {
         public string FirstName { get; set; }
 

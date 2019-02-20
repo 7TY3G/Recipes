@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recipes.Domain.Entities;
+using Recipes.Data.DataModels;
 
 namespace Recipes.Data
 {
@@ -9,19 +9,5 @@ namespace Recipes.Data
 
         public DbSet<Recipe> Recipe { get; set; }
         public DbSet<Ingredient> Ingredient { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<RecipeIngredient>(e => {
-                e.HasKey(x => x.Id);
-                e.Property(x => x.IngredientId).IsRequired();
-                e.HasOne<Ingredient>()
-                    .WithMany()
-                    .HasForeignKey(x => x.IngredientId);
-                e.ToTable("RecipeIngredient");
-            });
-        }
     }
 }
