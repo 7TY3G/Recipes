@@ -50,5 +50,33 @@ namespace Recipes.Web.Controllers
             await signInManager.SignOutAsync();
             return Ok();
         }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody]UserModel user)
+        {
+            // TODO: Move to business logic layer and add mapping
+            var userToCreate = new User()
+            {
+                FirstName = user.Firstname,
+                LastName = user.Lastname,
+                UserName = user.Username,
+                Email = user.Email
+            };
+
+            var result = await userManager.CreateAsync(userToCreate, user.Password);
+
+            if (result.Succeeded)
+            {
+                var isSignedIn = await signInManager.PasswordSignInAsync(user.Username, user.Password, false, false);
+
+                if (isSignedIn.Succeeded)
+                {
+                    return Ok();
+                }
+            }
+
+            // Redirect to registration page
+            return StatusCode(500);
+        }
     }
 }

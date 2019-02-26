@@ -26,4 +26,8 @@ export class LoginComponent {
       this.router.navigate(['/']);
     }, error => console.error(error));
   }
+
+  goToRegistration(): void {
+    this.router.navigate(['registration']);
+  }
 }

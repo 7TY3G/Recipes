@@ -1,0 +1,38 @@
+<form novalidate (ngSubmit)="register()" #form="ngForm">
+  <div>
+    <span>First Name</span>
+    <input name="firstname" type="text" placeholder="First Name (required)" [(ngModel)]="user.firstname" #firstname="ngModel" required />
+    <div *ngIf="firstname.errors?.required && firstname.touched" class="error">
+      First Name is required
+    </div>
+  </div>
+  <div>
+    <span>Last Name</span>
+    <input name="lastname" type="text" placeholder="Last Name (required)" [(ngModel)]="user.lastname" #lastname="ngModel" required />
+    <div *ngIf="lastname.errors?.required && lastname.touched" class="error">
+      Last Name is required
+    </div>
+  </div>
+  <div>
+    <span>Username</span>
+    <input name="username" type="text" placeholder="Username (required)" [(ngModel)]="user.username" #username="ngModel" required />
+    <div *ngIf="username.errors?.required && username.touched" class="error">
+      Username is required
+    </div>
+  </div>
+  <div>
+    <span>Email</span>
+    <input name="email" type="text" placeholder="Email (required)" [(ngModel)]="user.email" #email="ngModel" required />
+    <div *ngIf="email.errors?.required && email.touched" class="error">
+      Email is required
+    </div>
+  </div>
+  <div>
+    <span>Password</span>
+    <input name="password" type="text" placeholder="Password (required)" [(ngModel)]="user.password" #password="ngModel" required />
+    <div *ngIf="password.errors?.required && password.touched" class="error">
+      Password is required
+    </div>
+  </div>
+  <button type="submit" [disabled]="form.invalid || !form.dirty">Register</button>
+</form>

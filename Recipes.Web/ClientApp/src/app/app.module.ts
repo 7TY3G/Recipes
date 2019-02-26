@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
+import { RegistrationComponent } from './account/registration/registration.component';
 import { LoginComponent } from './account/login/login.component';
 import { RecipesListComponent } from './recipes-list/reciples-list.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
@@ -18,6 +19,7 @@ import { EditIngredientListComponent } from './shared/components/edit-ingredient
     AppComponent,
     NavMenuComponent,
     HomeComponent,
+    RegistrationComponent,
     LoginComponent,
     RecipesListComponent,
     AddRecipeComponent,
@@ -31,6 +33,7 @@ import { EditIngredientListComponent } from './shared/components/edit-ingredient
     RouterModule.forRoot([
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
+      { path: 'registration', component: RegistrationComponent },
       { path: 'login', component: LoginComponent },
       { path: 'recipes-list', component: RecipesListComponent },
       { path: 'add-recipe', component: AddRecipeComponent },
