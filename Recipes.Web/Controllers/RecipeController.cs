@@ -5,7 +5,7 @@ using Recipes.Domain.Entities;
 namespace Recipes.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class RecipeController : Controller
+    public class RecipeController : ControllerBase
     {
         private readonly IRecipeRepository recipeRepo;
 
@@ -15,7 +15,7 @@ namespace Recipes.Web.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult Index([FromBody]RecipeModel recipe)
+        public IActionResult Add([FromBody]RecipeModel recipe)
         {
             this.recipeRepo.AddRecipe(recipe);
 

@@ -1,37 +1,74 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Recipes.Data.DataModels;
+using Recipes.Data.DataModels.Security;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Recipes.Data.Seeding
 {
     public class DbSeeder
     {
         private readonly RecipesContext context;
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<Role> roleManager;
 
-        public DbSeeder(RecipesContext context)
+        public DbSeeder(RecipesContext context, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             this.context = context;
+            this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
-        public void Seed()
+        public async Task SeedAsync()
         {
             this.context.Database.EnsureCreated();
 
+            await SeedUsers();
+
             var currentDir = Environment.CurrentDirectory;
+            SeedIngredients(currentDir);
+            SeedRecipes(currentDir);
 
-            if (!this.context.Ingredient.Any())
+            this.context.SaveChanges();
+
+            UpdateRecipeIngredients();
+        }
+
+        private async Task SeedUsers()
+        {
+            User user = await userManager.FindByEmailAsync("thomas@myrecipes.com");
+
+            if (user == null)
             {
-                var ingredientsFile = string.Format("{0}\\../Recipes.Data/Seeding/Data/Ingredients.json", currentDir);
-                var ingredientsJson = File.ReadAllText(ingredientsFile);
-                var ingredients = JsonConvert.DeserializeObject<IEnumerable<Ingredient>>(ingredientsJson);
+                //Check if admin role exists and if not add it.
+                var roleExist = await this.roleManager.RoleExistsAsync("Admin");
 
-                this.context.Ingredient.AddRange(ingredients);
+                if (!roleExist)
+                {
+                    var role = new Role() { Name = "Admin" };
+                    await this.roleManager.CreateAsync(role);
+                }
+
+                user = new User() { FirstName = "Thomas", LastName = "Finch", UserName = "thomas.finch", Email = "thomas@myrecipes.com" };
+
+                var result = await this.userManager.CreateAsync(user, "Admin@1");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create valid user.");
+                }
+
+                //Add user to admin role
+                await this.userManager.AddToRoleAsync(user, "Admin");
             }
+        }
 
+        private void SeedRecipes(string currentDir)
+        {
             if (!this.context.Recipe.Any())
             {
                 var recipesFile = string.Format("{0}\\../Recipes.Data/Seeding/Data/Recipes.json", currentDir);
@@ -40,10 +77,18 @@ namespace Recipes.Data.Seeding
 
                 this.context.Recipe.AddRange(recipes);
             }
+        }
 
-            this.context.SaveChanges();
+        private void SeedIngredients(string currentDir)
+        {
+            if (!this.context.Ingredient.Any())
+            {
+                var ingredientsFile = string.Format("{0}\\../Recipes.Data/Seeding/Data/Ingredients.json", currentDir);
+                var ingredientsJson = File.ReadAllText(ingredientsFile);
+                var ingredients = JsonConvert.DeserializeObject<IEnumerable<Ingredient>>(ingredientsJson);
 
-            UpdateRecipeIngredients();
+                this.context.Ingredient.AddRange(ingredients);
+            }
         }
 
         private void UpdateRecipeIngredients()

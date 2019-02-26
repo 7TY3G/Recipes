@@ -21,7 +21,7 @@ namespace Recipes.Web
             using (var scope = scopeFactory.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetService<DbSeeder>();
-                seeder.Seed();
+                seeder.SeedAsync().Wait();
             }
         }
 

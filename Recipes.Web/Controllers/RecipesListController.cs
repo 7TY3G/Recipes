@@ -4,7 +4,7 @@ using Recipes.Data.Repos;
 namespace Recipes.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class RecipesListController : Controller
+    public class RecipesListController : ControllerBase
     {
         private readonly IRecipeRepository recipeRepo;
 

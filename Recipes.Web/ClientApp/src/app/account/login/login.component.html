@@ -1,0 +1,18 @@
+<form novalidate (ngSubmit)="login(form)" #form="ngForm">
+  <div>
+    <span>Username</span>
+    <input name="username" type="text" placeholder="Username (required)" [(ngModel)]="user.username" #username="ngModel" required />
+    <div *ngIf="username.errors?.required && username.touched" class="error">
+      Username is required
+    </div>
+  </div>
+  <div>
+    <span>Password</span>
+    <input name="password" type="text" placeholder="Password (required)" [(ngModel)]="user.password" #password="ngModel" required />
+    <div *ngIf="password.errors?.required && password.touched" class="error">
+      Password is required
+    </div>
+  </div>
+  <button type="submit" [disabled]="form.invalid || !form.dirty">Login</button>
+</form>
+<button type="button" (click)="logout()">Log out</button>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Recipes.Data.DataModels.Security;
+using System.Collections.Generic;
 
 namespace Recipes.Data.DataModels
 {

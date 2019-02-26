@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recipes.Data;
+using Recipes.Data.DataModels.Security;
 using Recipes.Data.Repos;
 using Recipes.Data.Seeding;
 
@@ -25,6 +26,12 @@ namespace Recipes.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddIdentity<User, Role>(cfg =>
+            {
+                cfg.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<RecipesContext>();
 
             services.AddDbContext<RecipesContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddTransient<DbSeeder>();
@@ -57,6 +64,8 @@ namespace Recipes.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
