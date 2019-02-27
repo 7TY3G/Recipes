@@ -1,18 +1,21 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Recipe } from '../shared/model/recipe';
+import { Component } from '@angular/core';
+
+import { Recipe } from '../shared/models/recipe';
+import { RecipeService } from '../shared/services/recipe.service';
 
 @Component({
   selector: 'app-recipes-list',
   templateUrl: './recipes-list.component.html'
 })
 export class RecipesListComponent {
-  public recipes: Recipe[];
+  public recipes: Recipe[] = [];
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<Recipe[]>(baseUrl + 'api/RecipesList/Get').subscribe(result => {
-      this.recipes = result;
-
-    }, error => console.error(error));
+  constructor(private recipeService: RecipeService) {
+    this.recipeService.getRecipes()
+      .subscribe((recipes: Recipe[]) => {
+        this.recipes = recipes;
+      },
+      (error: any) => console.log(error),
+      () => console.log('getRecipes called'));
   }
 }

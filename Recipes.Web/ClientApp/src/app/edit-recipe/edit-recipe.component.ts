@@ -1,7 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Recipe } from '../shared/model/recipe';
+
+import { Recipe } from '../shared/models/recipe';
+import { RecipeService } from '../shared/services/recipe.service';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -13,20 +14,30 @@ export class EditRecipeComponent {
   id: string;
   saved: boolean = false;
 
-  constructor(private router: Router, private currentRoute: ActivatedRoute, private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+  constructor(private router: Router, private currentRoute: ActivatedRoute, private recipeService: RecipeService) {
     this.currentRoute.params.subscribe((queryParams: ParamMap) => {
-      this.http.get<Recipe>(this.baseUrl + 'api/Recipe/GetById', { params: { id: queryParams['id'] } }).subscribe(result => {
-        this.recipe = result;
-      }, error => console.error(error));
+      let recipeParams = { params: { id: queryParams['id'] } };
+
+      this.recipeService.getRecipe(recipeParams)
+        .subscribe((recipe: Recipe) => {
+          this.recipe = recipe
+        },
+        (error: any) => console.log(error),
+        () => console.log('register called'));
     });
   }
 
   saveRecipe({ value, valid }: { value: Recipe, valid: boolean }) {
     debugger;
     if (valid) {
-      this.http.put<Recipe>(this.baseUrl + 'api/Recipe/Update', this.recipe).subscribe(result => {
-        this.saved = true;
-      }, error => console.error(error));
+      this.recipeService.saveRecipe(this.recipe)
+        .subscribe((recipe: Recipe) => {
+          this.saved = true;
+
+          // TODO: Route to saved recipe
+        },
+        (error: any) => console.log(error),
+        () => console.log('register called'));
     }
   }
 

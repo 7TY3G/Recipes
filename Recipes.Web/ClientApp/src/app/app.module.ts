@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -13,6 +13,9 @@ import { RecipesListComponent } from './recipes-list/reciples-list.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { EditIngredientListComponent } from './shared/components/edit-ingredient-list.component';
+
+import { RecipeService } from './shared/services/recipe.service';
+import { AccountService } from './shared/services/account.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,7 @@ import { EditIngredientListComponent } from './shared/components/edit-ingredient
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
+    HttpModule,
     FormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,7 +43,10 @@ import { EditIngredientListComponent } from './shared/components/edit-ingredient
       { path: 'edit-recipe/:id', component: EditRecipeComponent }
     ])
   ],
-  providers: [],
+  providers: [
+    AccountService,
+    RecipeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

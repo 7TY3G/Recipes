@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
-import { Ingredient } from '../model/Ingredient';
+import { Ingredient } from '../models/Ingredient';
 
 @Component({
   selector: 'edit-ingredient-list',

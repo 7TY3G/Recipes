@@ -1,7 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Recipe } from '../shared/model/recipe';
+
+import { Recipe } from '../shared/models/recipe';
+import { RecipeService } from '../shared/services/recipe.service';
 
 @Component({
   selector: 'app-add-recipe',
@@ -11,14 +12,17 @@ import { Recipe } from '../shared/model/recipe';
 export class AddRecipeComponent {
   recipe = new Recipe();
 
-  constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+  constructor(private router: Router, private recipeService: RecipeService) {
   }
 
   saveRecipe({ value, valid }: { value: Recipe, valid: boolean }) {
     if (valid) {
-      this.http.post<Recipe>(this.baseUrl + 'api/Recipe/Add', this.recipe).subscribe(result => {
-        this.router.navigate(['recipes-list']);
-      }, error => console.error(error));
+      this.recipeService.addRecipe(this.recipe)
+        .subscribe((recipe: Recipe) => {
+          this.router.navigate(['recipes-list']);
+        },
+        (error: any) => console.log(error),
+        () => console.log('register called'));
     }
   }
 }

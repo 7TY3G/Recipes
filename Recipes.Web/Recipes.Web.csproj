@@ -42,7 +42,7 @@
     <None Update="ClientApp\src\app\shared\model\Ingredient - Copy.js.map">
       <DependentUpon>Ingredient.js</DependentUpon>
     </None>
-    <None Update="ClientApp\src\app\shared\model\Ingredient.js.map">
+    <None Update="ClientApp\src\app\shared\models\Ingredient.js.map">
       <DependentUpon>Ingredient.js</DependentUpon>
     </None>
   </ItemGroup>
