@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Recipes.Data.Seeding;
 
 namespace Recipes.Web
@@ -27,6 +28,11 @@ namespace Recipes.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .ConfigureLogging((logging) =>
+                {
+                    logging.ClearProviders();
+                    logging.AddDebug();
+                });
     }
 }
