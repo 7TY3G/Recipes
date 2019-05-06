@@ -18,6 +18,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="NLog" Version="4.6.3" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.5.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,9 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ClientApp\src\app\shared\model\Ingredient - Copy.js.map">
-      <DependentUpon>Ingredient.js</DependentUpon>
-    </None>
     <None Update="ClientApp\src\app\shared\models\Ingredient.js.map">
       <DependentUpon>Ingredient.js</DependentUpon>
     </None>

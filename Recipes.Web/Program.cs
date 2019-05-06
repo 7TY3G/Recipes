@@ -1,7 +1,10 @@
+using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Web;
 using Recipes.Data.Seeding;
 
 namespace Recipes.Web
@@ -10,10 +13,23 @@ namespace Recipes.Web
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
-            SeedDatabase(host);
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
-            host.Run();
+            try {
+                logger.Debug("Init main");
+
+                var host = CreateWebHostBuilder(args).Build();
+                SeedDatabase(host);
+
+                host.Run();
+            }
+            catch (Exception ex) {
+                logger.Error(ex, "Failed to start program");
+            }
+            finally {
+                LogManager.Shutdown();
+            }
+            
         }
 
         private static void SeedDatabase(IWebHost host)
@@ -32,7 +48,8 @@ namespace Recipes.Web
                 .ConfigureLogging((logging) =>
                 {
                     logging.ClearProviders();
-                    logging.AddDebug();
-                });
+                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                })
+                .UseNLog();
     }
 }
