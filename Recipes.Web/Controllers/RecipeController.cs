@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Recipes.Data.Repos;
+using Recipes.Domain.Repositories;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Web.Controllers

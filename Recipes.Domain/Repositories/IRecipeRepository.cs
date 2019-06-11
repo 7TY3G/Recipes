@@ -1,8 +1,7 @@
-﻿using Recipes.Data.DataModels;
+﻿using System.Collections.Generic;
 using Recipes.Domain.Entities;
-using System.Collections.Generic;
 
-namespace Recipes.Data.Repos
+namespace Recipes.Domain.Repositories
 {
     public interface IRecipeRepository
     {

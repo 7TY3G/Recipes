@@ -2,10 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Recipes.Data.DataModels;
 using Recipes.Domain.Entities;
+using Recipes.Domain.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Recipes.Data.Repos
+namespace Recipes.Data.Repositories
 {
     public class RecipeRepository : IRecipeRepository
     {

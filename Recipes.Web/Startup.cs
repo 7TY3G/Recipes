@@ -8,8 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Recipes.Data;
 using Recipes.Data.DataModels.Security;
-using Recipes.Data.Repos;
+using Recipes.Data.Repositories;
 using Recipes.Data.Seeding;
+using Recipes.Domain.Repositories;
 
 namespace Recipes.Web
 {

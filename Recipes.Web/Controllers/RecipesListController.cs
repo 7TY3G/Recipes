@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Recipes.Data.Repos;
+using Recipes.Domain.Repositories;
 
 namespace Recipes.Web.Controllers
 {
