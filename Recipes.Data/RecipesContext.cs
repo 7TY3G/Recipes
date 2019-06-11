@@ -12,5 +12,17 @@ namespace Recipes.Data
         public DbSet<Recipe> Recipe { get; set; }
 
         public DbSet<Ingredient> Ingredient { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<FavouriteRecipes>()
+                .HasKey(fr => new { fr.UserId, fr.RecipeId });
+
+            builder.Entity<FavouriteRecipes>()
+                .HasOne(fr => fr.User)
+                .WithMany(u => u.FavouriteRecipes);
+        }
     }
 }
