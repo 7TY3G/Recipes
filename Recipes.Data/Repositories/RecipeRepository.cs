@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Recipes.Data.DataModels;
 using Recipes.Domain.Entities;
 using Recipes.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,28 +13,31 @@ namespace Recipes.Data.Repositories
     public class RecipeRepository : IRecipeRepository
     {
         private readonly RecipesContext context;
+        private readonly ILogger logger;
         private readonly IMapper mapper;
         private const int favouritesCount = 3;
 
-        public RecipeRepository(RecipesContext context, IMapper mapper)
+        public RecipeRepository(RecipesContext context, ILogger<RecipeRepository> logger, IMapper mapper)
         {
-            this.context = context;
-            this.mapper = mapper;
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public IEnumerable<RecipeModel> GetAllRecipes()
+        public IEnumerable<Recipe> GetAllRecipes()
         {
+            this.logger.LogInformation("RecipeRepo: Get All Recipes");
             var recipes = this.context.Recipe.AsEnumerable();
-            return mapper.Map<List<RecipeModel>>(recipes.ToList());
+            return mapper.Map<List<Recipe>>(recipes.ToList());
         }
 
-        public IEnumerable<RecipeModel> GetFavouriteRecipes()
+        public IEnumerable<Recipe> GetFavouriteRecipes()
         {
             var recipes = this.context.Recipe.OrderByDescending(x => x.Rating).Take(favouritesCount).AsEnumerable();
-            return mapper.Map<List<RecipeModel>>(recipes.ToList());
+            return mapper.Map<List<Recipe>>(recipes.ToList());
         }
 
-        public RecipeModel GetById(int id)
+        public Recipe GetById(int id)
         {
             var recipe = this.context.Recipe
                 .Include(x => x.Ingredients)
@@ -41,101 +46,98 @@ namespace Recipes.Data.Repositories
 
             if (recipe != null)
             {
-                return mapper.Map<RecipeModel>(recipe);
+                return mapper.Map<Recipe>(recipe);
             }
 
             return null;
         }
 
-        public void AddRecipe(RecipeModel recipe)
+        public void AddRecipe(Recipe recipe)
         {
-            var mappedRecipe = mapper.Map<Recipe>(recipe);
+            var mappedRecipe = mapper.Map<RecipeEntity>(recipe);
 
-            this.context.Recipe.Update(mappedRecipe);
+            this.context.Recipe.Add(mappedRecipe);
             this.context.SaveChanges();
         }
 
-        public void UpdateRecipe(RecipeModel recipe)
+        public void UpdateRecipe(Recipe recipe)
         {
-            var mappedRecipe = mapper.Map<Recipe>(recipe);
+            var mappedRecipe = mapper.Map<RecipeEntity>(recipe);
 
             var currentRecipe = this.context.Recipe
                 .Include(x => x.Ingredients)
                 .FirstOrDefault(x => x.Id == recipe.Id);
 
-            if (currentRecipe != null)
+            if (currentRecipe is null)
             {
-                currentRecipe.Name = mappedRecipe.Name;
-                currentRecipe.Rating = mappedRecipe.Rating;
-
-                UpdateExistingRecipeIngredients(currentRecipe.Ingredients, mappedRecipe.Ingredients.Where(x => x.Id != 0).ToList());
-                AddNewIngredientsToRecipe(currentRecipe, mappedRecipe.Ingredients.Where(x => x.Id == 0).ToList());
-
-                this.context.Recipe.Update(currentRecipe);
-                this.context.SaveChanges();
-
-                return;
+                // TODO: Should throw exception?
             }
 
-            // TODO: Should throw exception
-            return;
+            currentRecipe.Name = mappedRecipe.Name;
+            currentRecipe.Rating = mappedRecipe.Rating;
+            UpdateExistingIngredients(currentRecipe.Ingredients, mappedRecipe.Ingredients);
+            this.context.Update(currentRecipe);
+
+            AddNewIngredients(mappedRecipe.Id, mappedRecipe.Ingredients);
+            RemoveIngredients(currentRecipe.Ingredients, mappedRecipe.Ingredients);
+
+            this.context.SaveChanges();
         }
 
-        private void UpdateExistingRecipeIngredients(ICollection<RecipeIngredient> existingIngredients, ICollection<RecipeIngredient> updatedIngredients)
-        {
-            var itemsToRemove = new List<RecipeIngredient>();
+        private void UpdateExistingIngredients(
+            ICollection<RecipeIngredientEntity> existingIngredients, 
+            ICollection<RecipeIngredientEntity> updatedIngredients)
+        {        
+            var matchingIngredients = updatedIngredients.Where(x => existingIngredients.Select(i => i.IngredientId).Contains(x.IngredientId));
 
-            foreach (var existingIngredient in existingIngredients)
+            // Update any changes to ingredients that match existing ingredients for recipe
+            foreach (var ingredient in matchingIngredients)
             {
-                var updatedIngredient = updatedIngredients.Where(x => x.Id == existingIngredient.Id).SingleOrDefault();
+                var existingIngredient = existingIngredients.Where(x => x.IngredientId == ingredient.IngredientId).FirstOrDefault();
 
-                if (updatedIngredient != null && (existingIngredient.Measurement != updatedIngredient.Measurement
-                    || existingIngredient.Amount != updatedIngredient.Amount))
+                if (existingIngredient != null)
                 {
-                    existingIngredients.First(x => x.Id == existingIngredient.Id).Amount = updatedIngredient.Amount;
-                    existingIngredients.First(x => x.Id == existingIngredient.Id).Measurement = updatedIngredient.Measurement;
-                }
-                else if (updatedIngredient == null)
-                {
-                    itemsToRemove.Add(existingIngredient);
+                    // TODO: Update directly on this.context.RecipeIngredients
+                    existingIngredient.Measurement = ingredient.Measurement;
+                    existingIngredient.Amount = ingredient.Amount;
                 }
             }
-
-            foreach (var item in itemsToRemove)
-            {
-                existingIngredients.Remove(item);
-            }
         }
 
-        private void AddNewIngredientsToRecipe(Recipe currentRecipe, ICollection<RecipeIngredient> ingredients)
+        private void AddNewIngredients(
+            int recipeId,
+            ICollection<RecipeIngredientEntity> updatedIngredients)
         {
-            foreach (var ingredient in ingredients)
+            foreach (var ingredient in updatedIngredients.Where(x => x.IngredientId == 0))
             {
-                Ingredient ingredientToAdd = GetOrCreateIngredient(ingredient);
+                var existingIngredient = this.context.Ingredient.Where(x => x.Name == ingredient.Ingredient.Name).SingleOrDefault();
 
-                var newRecipeIngredient = new RecipeIngredient()
+                if (existingIngredient is null)
                 {
-                    RecipeId = currentRecipe.Id,
-                    Amount = ingredient.Amount,
-                    Measurement = ingredient.Measurement,
-                    IngredientId = ingredientToAdd != null ? ingredientToAdd.Id : 0
-                };
+                    var ingredientToAdd = new IngredientEntity()
+                    {
+                        Name = ingredient.Ingredient.Name
+                    };
 
-                currentRecipe.Ingredients.Add(newRecipeIngredient);
+                    // Should add ingredient
+                    this.context.Ingredient.Add(ingredientToAdd);
+                }
+
+                // TODO: Handle this better
+                // Shouldn't always set ingredient id if doesn't exist
+                ingredient.IngredientId = existingIngredient.Id;
+                ingredient.RecipeId = recipeId;
+
+                this.context.RecipeIngredients.Add(ingredient);
             }
         }
 
-        private Ingredient GetOrCreateIngredient(RecipeIngredient ingredient)
+        private void RemoveIngredients(
+            ICollection<RecipeIngredientEntity> existingIngredients, 
+            ICollection<RecipeIngredientEntity> updatedIngredients)
         {
-            var ingredientToAdd = this.context.Ingredient.Where(x => x.Name == ingredient.Ingredient.Name).FirstOrDefault();
-
-            if (ingredientToAdd == null)
-            {
-                ingredientToAdd = new Ingredient() { Name = ingredient.Ingredient.Name };
-                this.context.Ingredient.Add(ingredientToAdd);
-            }
-
-            return ingredientToAdd;
+            var ingredientsToRemove = existingIngredients.Where(x => !updatedIngredients.Select(u => u.Id).Contains(x.Id));
+            this.context.RecipeIngredients.RemoveRange(ingredientsToRemove);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Recipes.Data.DataModels.Security;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Recipes.Data.DataModels
 {
@@ -10,6 +11,7 @@ namespace Recipes.Data.DataModels
 
         public int RecipeId { get; set; }
 
-        public Recipe Recipe { get; set; }
+        [ForeignKey("RecipeId")]
+        public RecipeEntity Recipe { get; set; }
     }
 }

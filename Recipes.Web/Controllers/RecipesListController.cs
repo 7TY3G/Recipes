@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Recipes.Domain.Repositories;
+using System;
 
 namespace Recipes.Web.Controllers
 {
@@ -20,8 +21,17 @@ namespace Recipes.Web.Controllers
         public IActionResult Get()
         {
             logger.LogInformation("Get RecipesList");
-            var recipes = this.recipeRepo.GetAllRecipes();
-            return Ok(recipes);
+
+            try
+            {
+                var recipes = this.recipeRepo.GetAllRecipes();
+                return Ok(recipes);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("Favourites")]

@@ -34,9 +34,9 @@ namespace Recipes.Data.Seeding
             SeedIngredients(currentDir);
             SeedRecipes(currentDir);
 
-            this.context.SaveChanges();
-
             UpdateRecipeIngredients();
+
+            this.context.SaveChanges();
         }
 
         private async Task SeedUsers()
@@ -73,7 +73,7 @@ namespace Recipes.Data.Seeding
             {
                 var recipesFile = string.Format("{0}\\../Recipes.Data/Seeding/Data/Recipes.json", currentDir);
                 var recipesJson = File.ReadAllText(recipesFile);
-                var recipes = JsonConvert.DeserializeObject<IEnumerable<Recipe>>(recipesJson);
+                var recipes = JsonConvert.DeserializeObject<IEnumerable<RecipeEntity>>(recipesJson);
 
                 this.context.Recipe.AddRange(recipes);
             }
@@ -85,7 +85,7 @@ namespace Recipes.Data.Seeding
             {
                 var ingredientsFile = string.Format("{0}\\../Recipes.Data/Seeding/Data/Ingredients.json", currentDir);
                 var ingredientsJson = File.ReadAllText(ingredientsFile);
-                var ingredients = JsonConvert.DeserializeObject<IEnumerable<Ingredient>>(ingredientsJson);
+                var ingredients = JsonConvert.DeserializeObject<IEnumerable<IngredientEntity>>(ingredientsJson);
 
                 this.context.Ingredient.AddRange(ingredients);
             }
@@ -100,15 +100,15 @@ namespace Recipes.Data.Seeding
 
             if (chickenTikka.Ingredients.Count == 0)
             {
-                chickenTikka.Ingredients = new List<RecipeIngredient>()
+                chickenTikka.Ingredients = new List<RecipeIngredientEntity>()
                 {
-                    new RecipeIngredient() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Chicken breasts").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Canned tomatoes").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Onion").FirstOrDefault().Id, Amount = 2 },
-                    new RecipeIngredient() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Curry paste").FirstOrDefault().Id, Amount = 6, Measurement = "Tbsp" },
-                    new RecipeIngredient() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Red peppers").FirstOrDefault().Id, Amount = 2 },
-                    new RecipeIngredient() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Double cream").FirstOrDefault().Id, Amount = 150, Measurement = "Ml" },
-                    new RecipeIngredient() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Butter").FirstOrDefault().Id, Amount = 25, Measurement = "Grams" }
+                    new RecipeIngredientEntity() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Chicken breasts").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Canned tomatoes").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Onion").FirstOrDefault().Id, Amount = 2 },
+                    new RecipeIngredientEntity() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Curry paste").FirstOrDefault().Id, Amount = 6, Measurement = "Tbsp" },
+                    new RecipeIngredientEntity() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Red peppers").FirstOrDefault().Id, Amount = 2 },
+                    new RecipeIngredientEntity() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Double cream").FirstOrDefault().Id, Amount = 150, Measurement = "Ml" },
+                    new RecipeIngredientEntity() { RecipeId = chickenTikka.Id, IngredientId = ingredients.Where(x => x.Name == "Butter").FirstOrDefault().Id, Amount = 25, Measurement = "Grams" }
                 };
             }
 
@@ -116,17 +116,17 @@ namespace Recipes.Data.Seeding
 
             if (chilli.Ingredients.Count == 0)
             {
-                chilli.Ingredients = new List<RecipeIngredient>()
+                chilli.Ingredients = new List<RecipeIngredientEntity>()
                 {
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Onion").FirstOrDefault().Id, Amount = 1 },
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Red peppers").FirstOrDefault().Id, Amount = 1 },
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Garlic").FirstOrDefault().Id, Amount = 2 },
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Paprika").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Cumin").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Minced beef").FirstOrDefault().Id, Amount = 500, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Canned tomatoes").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Red beans").FirstOrDefault().Id, Amount = 410, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Rice").FirstOrDefault().Id, Amount = 300, Measurement = "Grams" }
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Onion").FirstOrDefault().Id, Amount = 1 },
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Red peppers").FirstOrDefault().Id, Amount = 1 },
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Garlic").FirstOrDefault().Id, Amount = 2 },
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Paprika").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Cumin").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Minced beef").FirstOrDefault().Id, Amount = 500, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Canned tomatoes").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Red beans").FirstOrDefault().Id, Amount = 410, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = chilli.Id, IngredientId = ingredients.Where(x => x.Name == "Rice").FirstOrDefault().Id, Amount = 300, Measurement = "Grams" }
                 };
             }
 
@@ -134,15 +134,15 @@ namespace Recipes.Data.Seeding
 
             if (bolognese.Ingredients.Count == 0)
             {
-                bolognese.Ingredients = new List<RecipeIngredient>()
+                bolognese.Ingredients = new List<RecipeIngredientEntity>()
                 {
-                    new RecipeIngredient() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Minced beef").FirstOrDefault().Id, Amount = 500, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Garlic").FirstOrDefault().Id, Amount = 2 },
-                    new RecipeIngredient() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Spagetti").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Canned tomatoes").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Basil").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
-                    new RecipeIngredient() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Oregano").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
-                    new RecipeIngredient() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Onion").FirstOrDefault().Id, Amount = 1 },
+                    new RecipeIngredientEntity() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Minced beef").FirstOrDefault().Id, Amount = 500, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Garlic").FirstOrDefault().Id, Amount = 2 },
+                    new RecipeIngredientEntity() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Spagetti").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Canned tomatoes").FirstOrDefault().Id, Amount = 400, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Basil").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
+                    new RecipeIngredientEntity() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Oregano").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
+                    new RecipeIngredientEntity() { RecipeId = bolognese.Id, IngredientId = ingredients.Where(x => x.Name == "Onion").FirstOrDefault().Id, Amount = 1 },
                 };
             }
 
@@ -150,27 +150,24 @@ namespace Recipes.Data.Seeding
 
             if (pudding.Ingredients.Count == 0)
             {
-                pudding.Ingredients = new List<RecipeIngredient>()
+                pudding.Ingredients = new List<RecipeIngredientEntity>()
                 {
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Dates").FirstOrDefault().Id, Amount = 225, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Vanilla extract").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Self-raising flour").FirstOrDefault().Id, Amount = 175, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Bicarbonate of soda").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Eggs").FirstOrDefault().Id, Amount = 2 },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Butter").FirstOrDefault().Id, Amount = 85, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Demerara sugar").FirstOrDefault().Id, Amount = 140, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Black treacle").FirstOrDefault().Id, Amount = 2, Measurement = "Tbsp" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Milk").FirstOrDefault().Id, Amount = 100, Measurement = "Ml" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Custard").FirstOrDefault().Id, Amount = 1 },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Light muscovado sugar").FirstOrDefault().Id, Amount = 175, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Butter").FirstOrDefault().Id, Amount = 50, Measurement = "Grams" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Double cream").FirstOrDefault().Id, Amount = 225, Measurement = "Ml" },
-                    new RecipeIngredient() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Black treacle").FirstOrDefault().Id, Amount = 1, Measurement = "Tbsp" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Dates").FirstOrDefault().Id, Amount = 225, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Vanilla extract").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Self-raising flour").FirstOrDefault().Id, Amount = 175, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Bicarbonate of soda").FirstOrDefault().Id, Amount = 1, Measurement = "Tsp" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Eggs").FirstOrDefault().Id, Amount = 2 },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Butter").FirstOrDefault().Id, Amount = 85, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Demerara sugar").FirstOrDefault().Id, Amount = 140, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Black treacle").FirstOrDefault().Id, Amount = 2, Measurement = "Tbsp" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Milk").FirstOrDefault().Id, Amount = 100, Measurement = "Ml" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Custard").FirstOrDefault().Id, Amount = 1 },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Light muscovado sugar").FirstOrDefault().Id, Amount = 175, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Butter").FirstOrDefault().Id, Amount = 50, Measurement = "Grams" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Double cream").FirstOrDefault().Id, Amount = 225, Measurement = "Ml" },
+                    new RecipeIngredientEntity() { RecipeId = pudding.Id, IngredientId = ingredients.Where(x => x.Name == "Black treacle").FirstOrDefault().Id, Amount = 1, Measurement = "Tbsp" },
                 };
             }
-
-            this.context.SaveChanges();
-
         }
     }
 }

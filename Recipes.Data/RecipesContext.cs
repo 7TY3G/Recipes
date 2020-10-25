@@ -9,13 +9,18 @@ namespace Recipes.Data
     {
         public RecipesContext(DbContextOptions<RecipesContext> options) : base(options) { }
 
-        public DbSet<Recipe> Recipe { get; set; }
+        public DbSet<RecipeEntity> Recipe { get; set; }
 
-        public DbSet<Ingredient> Ingredient { get; set; }
+        public DbSet<IngredientEntity> Ingredient { get; set; }
+
+        public DbSet<RecipeIngredientEntity> RecipeIngredients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<RecipeIngredientEntity>()
+                .HasKey(ri => new { ri.RecipeId, ri.IngredientId });
 
             builder.Entity<FavouriteRecipes>()
                 .HasKey(fr => new { fr.UserId, fr.RecipeId });

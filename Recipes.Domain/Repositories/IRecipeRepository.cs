@@ -5,10 +5,10 @@ namespace Recipes.Domain.Repositories
 {
     public interface IRecipeRepository
     {
-        IEnumerable<RecipeModel> GetAllRecipes();
-        IEnumerable<RecipeModel> GetFavouriteRecipes();
-        RecipeModel GetById(int id);
-        void AddRecipe(RecipeModel recipe);
-        void UpdateRecipe(RecipeModel recipe);
+        IEnumerable<Recipe> GetAllRecipes();
+        IEnumerable<Recipe> GetFavouriteRecipes();
+        Recipe GetById(int id);
+        void AddRecipe(Recipe recipe);
+        void UpdateRecipe(Recipe recipe);
     }
 }

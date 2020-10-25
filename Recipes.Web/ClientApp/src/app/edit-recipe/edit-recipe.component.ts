@@ -28,7 +28,6 @@ export class EditRecipeComponent {
   }
 
   saveRecipe({ value, valid }: { value: Recipe, valid: boolean }) {
-    debugger;
     if (valid) {
       this.recipeService.saveRecipe(this.recipe)
         .subscribe((recipe: Recipe) => {

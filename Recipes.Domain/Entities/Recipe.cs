@@ -2,7 +2,7 @@
 
 namespace Recipes.Domain.Entities
 {
-    public class RecipeModel
+    public class Recipe
     {
         public int Id { get; set; }
 
@@ -10,6 +10,8 @@ namespace Recipes.Domain.Entities
 
         public double Rating { get; set; }
 
-        public ICollection<IngredientModel> Ingredients { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }
+
+        public ICollection<MethodStep> Method { get; set; }
     }
 }

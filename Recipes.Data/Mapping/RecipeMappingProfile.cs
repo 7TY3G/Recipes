@@ -8,9 +8,9 @@ namespace Recipes.Data.Mapping
     {
         public RecipeMappingProfile()
         {
-            CreateMap<Recipe, RecipeModel>()
+            CreateMap<RecipeEntity, Recipe>()
                 .ReverseMap();
-            CreateMap<RecipeIngredient, IngredientModel>()
+            CreateMap<RecipeIngredientEntity, Ingredient>()
                 .ForMember(r => r.Name, i => i.MapFrom(src => src.Ingredient.Name))
                 .ReverseMap();
         }
